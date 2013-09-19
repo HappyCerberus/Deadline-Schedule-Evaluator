@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 
     schedule sch;
 
-    sch.process_file(config::input, string("JOBID ARRIVAL WAITTIME RUNTIME CPUREQ RAMREQ USERID"));
+    sch.process_file(config::input, string("JOBID ARRIVAL WAITTIME RUNTIME CPUREQ RAMREQ USERID QUEUE"));
     sch.write_jobs(config::jobs);
     sch.write_users(config::users);
 
