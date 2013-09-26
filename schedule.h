@@ -14,7 +14,7 @@ class schedule
 public:
     schedule();
 
-    void set_user_allowance(int user_id, BigResc cpu, BigResc ram);
+    void set_user_allowance(std::string user_id, BigResc cpu, BigResc ram);
 
     void process_file(std::istream& file, const std::string& format);
 
@@ -29,9 +29,15 @@ public:
     void write_deadlines(std::ostream& file);
     void write_consumption(std::ostream& file);
 
+    BigResc get_max_cpu_consumption() const { return p_max_cpu_consumption; }
+    BigResc get_max_ram_consumption() const { return p_max_ram_consumption; }
+
+    BigResc get_user_count() const { return p_user_db.size(); }
+    BigResc get_valid_user_count() const { return p_valid_user_count; }
+
 private:
-    std::map< int, std::shared_ptr<user> > p_user_db;
-    std::map< int, std::pair<BigResc,BigResc> > p_allowance;
+    std::map< std::string, std::shared_ptr<user> > p_user_db;
+    std::map< std::string, std::pair<BigResc,BigResc> > p_allowance;
 
     BigResc p_def_cpu;
     BigResc p_def_ram;
@@ -40,6 +46,7 @@ private:
 
     BigResc p_max_cpu_consumption;
     BigResc p_max_ram_consumption;
+    BigResc p_valid_user_count;
 };
 
 #endif // SCHEDULE_H

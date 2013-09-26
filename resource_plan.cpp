@@ -12,12 +12,27 @@ resource_plan::resource_plan(BigResc capacity) : p_capacity(capacity)
 BigResc resource_plan::consume(BigResc start, BigResc length, BigResc consumption)
 {
     BigResc remaining_capacity = length * consumption;
-    BigResc deadline = p_consume(start,consumption,remaining_capacity);
+    BigResc deadline = p_consume(start,consumption,remaining_capacity, true);
     return deadline;
 }
 
-BigResc resource_plan::p_consume(BigResc start, BigResc max_consumption, BigResc &capacity)
+BigResc resource_plan::p_consume(BigResc start, BigResc max_consumption, BigResc &capacity, bool first)
 {
+    auto iter = p_gaps.upper_bound(start);
+    if (iter == p_gaps.end())
+    {
+        --iter;
+        assert(iter->get_length() == -1);
+    }
+
+    auto prev = iter;
+    --prev;
+    if (prev->get_start() + prev->get_length() > start)
+    {
+        iter = prev;
+    }
+
+#if 0
     auto i = p_gaps.begin();
     while(i != p_gaps.end())
     {
@@ -27,16 +42,17 @@ BigResc resource_plan::p_consume(BigResc start, BigResc max_consumption, BigResc
     }
 
     assert(i != p_gaps.end());
+#endif
 
-    resource_gap gap = *i;
-    p_gaps.erase(i);
+    resource_gap gap = *iter;
+    p_gaps.erase(iter);
 
     if (gap.has_capacity_tail(start,max_consumption,capacity))
     {
         p_gaps.insert(gap.get_tail_gap(start,max_consumption,capacity));
     }
 
-    if (gap.starts_before(start))
+    if (!first && gap.starts_before(start))
     {
         p_gaps.insert(gap.get_head_gap(start));
     }
@@ -51,7 +67,7 @@ BigResc resource_plan::p_consume(BigResc start, BigResc max_consumption, BigResc
     if (capacity <= 0)
         return deadline;
 
-    return p_consume(deadline,max_consumption,capacity);
+    return p_consume(deadline,max_consumption,capacity,false);
 }
 
 ostream& operator << (ostream& s, const resource_plan& plan)

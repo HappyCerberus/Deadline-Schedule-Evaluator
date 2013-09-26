@@ -21,8 +21,8 @@ public:
     void set_owner(std::shared_ptr<user> owner);
     std::shared_ptr<user> get_owner() const;
 
-    TinyResc get_userid() const;
-    TinyResc get_jobid() const;
+    std::string get_userid() const;
+    std::string get_jobid() const;
 
     void set_deadline(BigResc deadline);
 
@@ -49,9 +49,11 @@ public:
     /* memory requirements */
     BigResc get_ram_req() const;
 
+    std::string get_queue() const { return p_queue; }
+
 private:
-    TinyResc p_jobid = -1;
-    TinyResc p_userid = -1;
+    std::string p_jobid;
+    std::string p_userid;
 
     BigResc p_arrival_time = -1;
     BigResc p_wait_time = -1;

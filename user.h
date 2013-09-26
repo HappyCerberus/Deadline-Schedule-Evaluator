@@ -11,7 +11,7 @@ enum DeadlineStyle { DeadlineBeforeStart, DeadlineAfterEnd };
 class user
 {
 public:
-    user(TinyResc userid, BigResc cpu_capacity, BigResc ram_capacity);
+    user(std::string userid, BigResc cpu_capacity, BigResc ram_capacity);
 
     /** \brief Access jobs owned by this user */
     std::shared_ptr<job> operator[] (int index) const;
@@ -21,10 +21,7 @@ public:
 
     void sort_jobs();
 
-    TinyResc get_userid() const { return p_userid; }
-
-    resource_plan& cpu_plan() { return p_cpu_resc; }
-    resource_plan& ram_plan() { return p_ram_resc; }
+    std::string get_userid() const { return p_userid; }
 
     void calculate_deadlines();
     void calculate_consumptions(BigResc end_time);
@@ -43,15 +40,15 @@ public:
     void write_jobs(std::ostream& f);
 
 private:
-    TinyResc p_userid  = -1;
+    std::string p_userid  = "--";
     std::vector< std::shared_ptr<job> > p_jobs;
-
-    resource_plan p_cpu_resc;
-    resource_plan p_ram_resc;
 
     std::vector<BigResc> p_cpu_consumption;
     std::vector<BigResc> p_ram_consumption;
     std::vector<int>     p_deadline_count;
+
+    BigResc p_cpu_capacity;
+    BigResc p_ram_capacity;
 
     TinyResc p_violated_deadline_count = 0;
     BigResc p_total_positive_deadline = 0;

@@ -40,6 +40,9 @@ resource_gap resource_gap::get_mid_gap(BigResc start_time, BigResc max_consumpti
     BigResc cap = min(max_consumption,p_capacity);
     BigResc req_length = req / cap + (req % cap != 0);
 
+    if (req_length+start_time > p_start+p_length)
+        req_length -= (req_length+start_time) - (p_start+p_length);
+
     return resource_gap(start_time,req_length,p_capacity-cap);
 }
 
@@ -52,7 +55,7 @@ resource_gap resource_gap::get_tail_gap(BigResc start_time, BigResc max_consumpt
     if (p_length == -1)
         return resource_gap(req_length+start_time,-1,p_capacity);
     else
-        return resource_gap(req_length+start_time,p_length-req_length-(start_time-p_start),p_capacity);
+        return resource_gap(req_length+start_time,(p_length+p_start)-(req_length+start_time),p_capacity);
 }
 
 bool resource_gap::operator < (const resource_gap& g) const

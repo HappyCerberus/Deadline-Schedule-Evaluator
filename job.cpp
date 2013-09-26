@@ -56,9 +56,10 @@ bool job::read_cpureq(std::istream& s)
 bool job::read_ramreq(std::istream& s)
 {
     s >> p_ram_req;
+    p_ram_req /= 1024;
 
     if (p_ram_req == 0)
-        p_ram_req = 409600;
+        p_ram_req = 400;
 
     return s.good();
 }
@@ -185,12 +186,12 @@ shared_ptr<user> job::get_owner() const
     return p_owner.lock();
 }
 
-TinyResc job::get_userid() const
+std::string job::get_userid() const
 {
     return p_userid;
 }
 
-TinyResc job::get_jobid() const
+std::string job::get_jobid() const
 {
     return p_jobid;
 }

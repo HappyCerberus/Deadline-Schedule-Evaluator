@@ -20,7 +20,7 @@ private:
     std::set<resource_gap> p_gaps;
     BigResc p_capacity;
 
-    BigResc p_consume(BigResc start, BigResc max_consumption, BigResc& capacity);
+    BigResc p_consume(BigResc start, BigResc max_consumption, BigResc& capacity, bool first);
 };
 
 #endif // RESOURCE_PLAN_H

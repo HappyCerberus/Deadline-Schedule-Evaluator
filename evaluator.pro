@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     resource_plan.cpp \
     resource_gap.cpp \
     schedule.cpp \
-    config.cpp
+    config.cpp \
+    progressanim.cpp
 
 HEADERS += \
     job.h \
@@ -21,5 +22,7 @@ HEADERS += \
     resource_gap.h \
     resources.h \
     schedule.h \
-    config.h
+    config.h \
+    progressanim.h
 
+LIBS += -lboost_program_options
