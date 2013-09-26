@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Deadline-schedule-evaluator : Deadline based evaluator for GRID schedules" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Deadline-schedule-evaluator</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/HappyCerberus/Deadline-Schedule-Evaluator">View on GitHub</a>
+
+          <h1 id="project_title">Deadline-schedule-evaluator</h1>
+          <h2 id="project_tagline">Deadline based evaluator for GRID schedules</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/HappyCerberus/Deadline-Schedule-Evaluator/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/HappyCerberus/Deadline-Schedule-Evaluator/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a name="deadline-based-evaluator-for-grid-schedules" class="anchor" href="#deadline-based-evaluator-for-grid-schedules"><span class="octicon octicon-link"></span></a>Deadline based evaluator for GRID schedules</h3>
+
+<p>This tool is designed for evaluation of GRID schedules.</p>
+
+<h3>
+<a name="user-documentation" class="anchor" href="#user-documentation"><span class="octicon octicon-link"></span></a>User Documentation</h3>
+
+<p>Use <code>--help</code> to print a simple help overview.</p>
+
+<p>The required options are <code>--input filename</code> to specify the input file, <code>--cpuAllowance</code> to specify the number of cores all users receive in their share, <code>--ramAllowance</code> to specify the number of MB of RAM all users receive in their share.</p>
+
+<p>To actually generate a heatmap, also specify <code>--generateHeatmap</code>. This requires <code>gnuplot</code> installed.</p>
+
+<h4>
+<a name="input-file" class="anchor" href="#input-file"><span class="octicon octicon-link"></span></a>Input file</h4>
+
+<p>The expected format is <code>JOBID ARRIVAL WAITTIME RUNTIME CPUREQ RAMREQ USERID QUEUE</code> for each line.</p>
+
+<p><code>ARRIVAL</code>, <code>WAITTIME</code>, <code>RUNTIME</code> are expected to be time offsets in seconds from the schedule start.</p>
+
+<p><code>CPUREQ</code> is expected to be the number of cores requested by the job.</p>
+
+<p><code>RAMREQ</code> is expected to be the number kB of RAM requested by the job.</p>
+
+<p><code>JOBID</code>, <code>USERID</code>, <code>QUEUE</code> are expected to be simple string tokens (without spaces).</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Deadline-schedule-evaluator maintained by <a href="https://github.com/HappyCerberus">HappyCerberus</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
