@@ -130,7 +130,7 @@ void schedule::write_deadlines(std::ostream& file)
     for (auto i : p_user_db)
     {
         vis.tick();
-        shared_ptr<user> user = i.second;
+        shared_ptr<user> user = i.second; 
 
         if (user->get_jobcount() < config::minimumJobs)
             continue;
@@ -141,9 +141,17 @@ void schedule::write_deadlines(std::ostream& file)
 
         p_valid_user_count++;
 
-        for (size_t j = 0; j < user->get_deadline_count().size(); j++)
+        for (size_t j = config::ignore_first_seconds/60; j < user->get_deadline_count().size(); j++)
         {
-            file << userid << " " << j << " " << user->get_deadline_count()[j] << endl;
+
+            if (config::single_user_mode != "" && config::single_user_mode != user->get_userid())
+            {
+                file << userid << " " << j << " " << 0 << endl;
+            }
+            else
+            {
+                file << userid << " " << j << " " << user->get_deadline_count()[j] << endl;
+            }
         }
 
         ++userid;
@@ -168,7 +176,10 @@ void schedule::write_consumption(std::ostream& file)
     {
         vis.tick();
 
-        for (size_t j = 0; j < cpu.size(); j++)
+        if (config::single_user_mode != "" && config::single_user_mode != i->second->get_userid())
+            continue;
+
+        for (size_t j = config::ignore_first_seconds/60; j < cpu.size(); j++)
         {
             cpu[j] += i->second->get_cpu_consumption()[j];
             ram[j] += i->second->get_ram_consumption()[j];
@@ -178,8 +189,8 @@ void schedule::write_consumption(std::ostream& file)
         }
     }
 
-    for (size_t j = 0; j < cpu.size(); j++)
+    for (size_t j = config::ignore_first_seconds/60; j < cpu.size(); j++)
     {
-        file << j << " " << cpu[j] << " " << ram[j]/1024 << endl;
+        file << j << " " << cpu[j] << " " << ram[j] << endl;
     }
 }

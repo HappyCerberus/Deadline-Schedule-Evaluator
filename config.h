@@ -23,12 +23,15 @@ struct config
     static std::vector<std::string> ignored_users;
 
     static std::string single_queue_mode;
+    static std::string single_user_mode;
 
     static int minimumJobs;
     static int minimumDeadlines;
     static int minimumDeadlineTime;
 
     static bool generateHeatmap;
+
+    static long long ignore_first_seconds;
 };
 
 #endif // CONFIG_H

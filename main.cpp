@@ -36,8 +36,10 @@ int initialize(int argc, char *argv[])
             ("minimumDeadlines", value<int>(), "deadline limit for user to be considered")
             ("minimumDeadlineTime", value<int>(), "deadline time limit for user to be considered")
             ("singleQueueMode", value<string>(), "set a single queue to be processed")
+            ("singleUserMode", value<string>(), "set a single user to be processed")
             ("heatmapFilename", value<string>(), "output file name for the heatmap")
             ("generateHeatmap", "generate heatmap using gnuplot")
+            ("ignoreStart", value<long long>(), "ingore initial seconds in for deadline calculation and heatmap drawing")
             ;
 
     variables_map vm;
@@ -125,10 +127,22 @@ int initialize(int argc, char *argv[])
         config::single_queue_mode = vm["singleQueueMode"].as<string>();
     }
 
+    config::single_user_mode = "";
+    if (vm.count("singleUserMode"))
+    {
+        config::single_user_mode = vm["singleUserMode"].as<string>();
+    }
+
     config::generateHeatmap = false;
     if (vm.count("generateHeatmap"))
     {
         config::generateHeatmap = true;
+    }
+
+    config::ignore_first_seconds = 0;
+    if (vm.count("ignoreStart"))
+    {
+        config::ignore_first_seconds = vm["ignoreStart"].as<long long>();
     }
 
     // Open the input file
@@ -202,6 +216,9 @@ void generateHeatmap(const schedule& sch)
 
     BigResc user_count = sch.get_valid_user_count();
     BigResc ysize = user_count*10/0.9;
+//    if (config::single_user_mode != "")
+//        ysize = 2000;
+
     fprintf(gnuplot,"%s%lld%s\n","set terminal png large size 5120, ",ysize," enhanced font \"Verdana,50\"");
     fprintf(gnuplot,"set output \"%s\"\n",heatmap.c_str());
     fprintf(gnuplot,"set view map\n"
@@ -220,11 +237,13 @@ void generateHeatmap(const schedule& sch)
                     "set lmargin 3\n"
                     "set rmargin 3\n"
                     "unset xtics\n"
-                    "set xrange [0:]\n"
+                    "set xrange [%lld:]\n", config::ignore_first_seconds/60);
+    fprintf(gnuplot,
                     "unset ytics\n"
                     "set boxwidth 2\n"
                     "set colorbox user origin 0.90,0 size 0.05,1 noborder\n"
                     "set cbtics 1,2,1025\n"
+                    "set cbrange [1:2048]\n"
                     "set origin 0,0.2\n"
                     "set size 0.9,0.8\n"
                     "set yrange [-1:%lld]\n",user_count);

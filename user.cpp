@@ -91,6 +91,10 @@ void user::calculate_consumptions(BigResc end_time)
     for (size_t i = 0; i < p_jobs.size(); i++)
     {
         shared_ptr<job> j = p_jobs[i];
+
+        if (config::single_queue_mode != "" && config::single_queue_mode != j->get_queue())
+            continue;
+
         BigResc start_time = j->get_arrival() + j->get_waittime();
         BigResc end_time = j->get_arrival() + j->get_waittime() + j->get_runtime();
 
@@ -131,6 +135,9 @@ void user::calculate_deadline_count(BigResc end_time, DeadlineStyle style)
                 continue;
 
             if (ignored)
+                continue;
+
+            if (j->get_arrival() < config::ignore_first_seconds)
                 continue;
 
             BigResc start_time = j->get_arrival() + j->get_waittime() - j->deadline_diff();

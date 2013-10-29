@@ -24,6 +24,9 @@ bool config::generateHeatmap;
 string config::input_filename;
 
 string config::single_queue_mode;
+string config::single_user_mode;
 
 string config::heatmap_filename;
+
+long long config::ignore_first_seconds;
 
