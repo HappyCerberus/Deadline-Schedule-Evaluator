@@ -57,6 +57,49 @@
 <p><code>RAMREQ</code> is expected to be the number kB of RAM requested by the job.</p>
 
 <p><code>JOBID</code>, <code>USERID</code>, <code>QUEUE</code> are expected to be simple string tokens (without spaces).</p>
+
+<h4>
+<a name="output-files" class="anchor" href="#output-files"><span class="octicon octicon-link"></span></a>Output files</h4>
+
+<p>The tool will generate several files. These files are named after the input filename.</p>
+
+<h5>
+<a name="consumption-file-consumption" class="anchor" href="#consumption-file-consumption"><span class="octicon octicon-link"></span></a>Consumption file <code>.consumption</code>
+</h5>
+
+<p>This file contains time overview of CPU and memory consumption. File contains one record (line) per-minute in the format <code>TIME CPU MEM</code>.</p>
+
+<h5>
+<a name="deadlines-file-deadlines" class="anchor" href="#deadlines-file-deadlines"><span class="octicon octicon-link"></span></a>Deadlines file <code>.deadlines</code>
+</h5>
+
+<p>This file contains data for heatmap generation. File contains one record for each 2D coordinate (time<code>x</code>user). Format of each line is <code>USERID TIME DEADLINE_COUNT</code>.</p>
+
+<h5>
+<a name="jobs-file-jobs" class="anchor" href="#jobs-file-jobs"><span class="octicon octicon-link"></span></a>Jobs file <code>.jobs</code>
+</h5>
+
+<p>File contains processed input information. File contains one record for each job in the input file. Format of each line is <code>JOBID ARRIVAL WAITTIME RUNTIME CPUREQ RAMREQ USERID DEADLINE_SATISFIED DEADLINE_DIFF</code>.</p>
+
+<p><code>DEADLINE_SATISFIED</code> is a boolean representing whether the job had it's deadline violated or satisfied</p>
+
+<p><code>DEADLINE_DIFF</code> is the time difference (can be both positive or negative) against the calculated deadline</p>
+
+<h5>
+<a name="users-file-users" class="anchor" href="#users-file-users"><span class="octicon octicon-link"></span></a>Users file <code>.users</code>
+</h5>
+
+<p>File contains processed information from the model, grouped by users. File contains one record for each user in the input file. Format of each line is <code>USERID JOBCOUNT VIOLATED_COUNT SUM_DIFF SUM_POSITIVE_DIFF RELATIVE_VIOLATED RELATIVE_SUM RELATIVE_SUM_POSITIVE</code></p>
+
+<p><code>VIOLATED_COUNT</code> is the total number of violated deadlines for this user</p>
+
+<p><code>SUM_DIFF</code> is the total sum of all differences between calculated deadlines and actual job end times</p>
+
+<p><code>SUM_POSITIVE_DIFF</code> is the total sum of differences between calculated deadlines and actual job end times for jobs that didn't meet their deadline</p>
+
+<p><code>RELATIVE_VIOLATED</code> relative count of violated deadlines <code>VIOLATED_COUNT/JOBCOUNT</code></p>
+
+<p><code>RELATIVE_SUM</code> and <code>RELATIVE_SUM_POSITIVE</code> are relative variants of <code>SUM_DIFF</code> and <code>SUM_POSITIVE_DIFF</code> (divided by <code>JOBCOUNT</code>)</p>
       </section>
     </div>
 
